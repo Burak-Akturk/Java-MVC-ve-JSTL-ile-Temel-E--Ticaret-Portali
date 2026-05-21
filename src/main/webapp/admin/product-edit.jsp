@@ -1,0 +1,69 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<c:if test="${empty sessionScope.user or sessionScope.user.role != 'ADMIN'}">
+    <c:redirect url="../login.jsp"/>
+</c:if>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ürün Düzenle - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Ürün Düzenle (#${product.id})</h4>
+            </div>
+            <div class="card-body p-4">
+                
+                <form action="adminProductEdit" method="post">
+                    <input type="hidden" name="id" value="${product.id}">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Ürün Adı</label>
+                        <input type="text" name="name" class="form-control" value="${product.name}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Kategori ID</label>
+                        <input type="number" name="categoryId" class="form-control" value="${product.categoryId}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Fiyat (₺)</label>
+                        <input type="number" step="0.01" name="price" class="form-control" value="${product.price}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Stok Adedi</label>
+                        <input type="number" name="stock" class="form-control" value="${product.stock}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Görsel URL</label>
+                        <input type="text" name="imageUrl" class="form-control" value="${product.imageUrl}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Açıklama</label>
+                        <textarea name="description" class="form-control" rows="3" required>${product.description}</textarea>
+                    </div>
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" name="isActive" id="isActive" ${product.active ? 'checked' : ''}>
+                        <label class="form-check-label fw-bold" for="isActive">
+                            Ürün Aktif (Sitede Görünsün)
+                        </label>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="adminProducts" class="btn btn-secondary">İptal</a>
+                        <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
